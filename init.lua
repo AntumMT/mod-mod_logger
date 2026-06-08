@@ -102,8 +102,12 @@ end
 --  - `mod_table.debug(msg)`
 --
 --  @param mod_table
---    Table to which logging functions will be added.
+--    Table to which logging functions will be added. If omitted, a new table will be created &
+--    returned.
+--  @return
+--    `mod_table` or new table with logging functions.
 register_mod_logger = function(mod_table)
+	mod_table = mod_table or {}
 	local mod_name = core.get_current_modname()
 
 	-- main logging function
@@ -139,6 +143,8 @@ register_mod_logger = function(mod_table)
 	if mod_logger.debug then
 		mod_logger.debug("registered logger for mod '"..mod_name.."'")
 	end
+
+	return mod_table
 end
 
 

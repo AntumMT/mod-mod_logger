@@ -10,8 +10,10 @@ logging output messages.
 Adds a single global function `register_mod_logger`:
 
 ```
-register_mod_logger(mod_table)
-- mod_table: Table to which logging functions will be added.
+register_mod_logger([mod_table])
+- mod_table: Table to which logging functions will be added. If omitted, a new table will be created
+    & returned.
+- return value: `mod_table` or new table with logging functions.
 ```
 
 Once registered, the `mod_table` will include the following functions:
@@ -70,6 +72,13 @@ my_mod.info("Hello my_mod!")
 -- outputs "DEBUG[<mod_name>] Hello my_mod!" to Luanti logging console
 -- same as `my_mod.log("debug", "Hello my_mod!")`
 my_mod.debug("Hello my_mod!")
+```
+
+Creating a local logger:
+
+```lua
+local my_logger = register_mod_logger()
+my_logger.info("Hello my_mod!")
 ```
 
 ## Links
