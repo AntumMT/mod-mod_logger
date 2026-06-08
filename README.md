@@ -39,8 +39,7 @@ Parameters:
 
 ## Settings
 
-- [`mod_log_level`](https://codeberg.org/AntumLuanti/mod-mod_logger/src/branch/master/settingtypes.txt)
-  (enum): Sets logging verbosity.
+- [`mod_log_level`](settingtypes.txt) (enum): Sets logging verbosity.
 
 ___Note:__ Messages also abide by level of core Luanti logger. "info" &amp; "debug" messages are
 output to the default core logger level._
