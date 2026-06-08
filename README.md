@@ -15,7 +15,6 @@ register_mod_logger(mod_table)
 
 Once registered, the `mod_table` will include the following functions:
 
-```
 Functions:
 - log(lvl, msg)
 - log(msg)
