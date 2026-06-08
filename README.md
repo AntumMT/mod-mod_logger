@@ -10,13 +10,17 @@ logging output messages.
 Adds a single global function `register_mod_logger`:
 
 ```
-register_mod_logger([mod_table])
-- mod_table: Table to which logging functions will be added. If omitted, a new table will be created
+register_mod_logger()
+register_mod_logger(name)
+register_mod_logger(logger)
+register_mod_logger(name, logger)
+- name: Logger name that will prefix messages. If omitted, mod name will be used.
+- logger: Table to which logging functions will be added. If omitted, a new table will be created
     & returned.
-- return value: `mod_table` or new table with logging functions.
+- return value: `logger` or new table with logging functions.
 ```
 
-Once registered, the `mod_table` will include the following functions:
+Once registered, the `logger` table will include the following functions:
 
 Functions:
 - log(lvl, msg)
@@ -91,8 +95,6 @@ my_logger.info("Hello my_mod!")
 - [Changelog](changelog.txt)
 
 ## TODO
-
-- allow setting custom logger name
 
 
 [Luanti]: https://www.luanti.org/

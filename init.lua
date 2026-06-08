@@ -100,54 +100,72 @@ end
 
 --- Registers logging functions to mod.
 --
---  Functions added to `mod_table`:
---  - `mod_table.log(lvl, msg)`
---  - `mod_table.log(msg)`
---  - `mod_table.warn(msg)`
---  - `mod_table.error(msg)`
---  - `mod_table.debug(msg)`
+--  Functions added to `logger` table:
+--  - `logger.log(lvl, msg)`
+--  - `logger.log(msg)`
+--  - `logger.warn(msg)`
+--  - `logger.error(msg)`
+--  - `logger.debug(msg)`
 --
---  @param mod_table
+--  @param name
+--    Logger name that will prefix messages. If omitted, mod name will be used.
+--  @param logger
 --    Table to which logging functions will be added. If omitted, a new table will be created &
 --    returned.
 --  @return
---    `mod_table` or new table with logging functions.
-register_mod_logger = function(mod_table)
-	mod_table = mod_table or {}
-	local mod_name = core.get_current_modname()
+--    `logger` or new table with logging functions.
+register_mod_logger = function(name, logger)
+	if logger == nil then
+		if type(name) == "table" then
+			logger = name
+			name = nil
+		else
+			logger = {}
+		end
+	end
+	-- mod name is used by default
+	name = name ~= nil and name or core.get_current_modname()
+
+	if type(logger) ~= "table" then
+		mod_logger.error("invalid parameter `logger` for `register_mod_logger`, must be table")
+		return
+	elseif type(name) ~= "string" then
+		mod_logger.error("invalid parameter `name` for `register_mod_logger`, must be string")
+		return
+	end
 
 	-- main logging function
-	mod_table.log = function(lvl, msg)
-		log(mod_name, mod_table, lvl, msg)
+	logger.log = function(lvl, msg)
+		log(name, logger, lvl, msg)
 	end
 
 	-- wrapper for logging info level messages
-	mod_table.info = function(msg)
-		log(mod_name, mod_table, nil, msg)
+	logger.info = function(msg)
+		log(name, logger, nil, msg)
 	end
 
 	-- wrapper for logging action level messages
-	mod_table.action = function(msg)
-		log(mod_name, mod_table, "action", msg)
+	logger.action = function(msg)
+		log(name, logger, "action", msg)
 	end
 
 	-- wrapper for logging warning level messages
-	mod_table.warn = function(msg)
-		log(mod_name, mod_table, "warn", msg)
+	logger.warn = function(msg)
+		log(name, logger, "warn", msg)
 	end
 
 	-- wrapper for logging error level messages
-	mod_table.error = function(msg)
-		log(mod_name, mod_table, "error", msg)
+	logger.error = function(msg)
+		log(name, logger, "error", msg)
 	end
 
 	-- wrapper for logging debug level message
-	mod_table.debug = function(msg)
-		log(mod_name, mod_table, "debug", msg)
+	logger.debug = function(msg)
+		log(name, logger, "debug", msg)
 	end
 
-	mod_logger.debug("registered logger '"..mod_name.."'")
-	return mod_table
+	mod_logger.debug("registered logger '"..name.."'")
+	return logger
 end
 
 
