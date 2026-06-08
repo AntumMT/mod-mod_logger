@@ -19,13 +19,15 @@ Once registered, the `mod_table` will include the following functions:
 Functions:
 - log(lvl, msg)
 - log(msg)
+- info(msg)
+- action(msg)
 - warn(msg)
 - error(msg)
 - debug(msg)
 
 Parameters:
-- lvl: (optional) Logging level. Can be one of "warn", "error", or "debug". If its value is `nil`
-  the standard message logging level will be used (same as `log(msg)`).
+- lvl: (optional) Logging level. Can be one of "warn", "info", "action", "error", or "debug". If its
+  value is `nil` the standard message logging level will be used (same as `log(msg)`).
 - msg: Logging message text.
 
 The `debug` function will only output text when the setting `enable_debug_mods` is set to `true`.

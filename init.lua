@@ -10,8 +10,13 @@ local debug_mods = core.settings:get_bool("enable_debug_mods", false)
 --  @param mod_table
 --    Table containing logging info.
 --  @param lvl
---    Logging level. Can be one of "warn", "error", or "debug". If its value is `nil` the standard
---    message logging level will be used (same as `log(msg)`).
+--    Logging level. If its value is `nil` the standard message logging level ("info") is used (same
+--    as `log(msg)`). Supported log levels:
+--    - "info"
+--    - "action"
+--    - "warn" | "warning"
+--    - "error"
+--    - "debug"
 --  @param msg
 --    Logging message text.
 local log = function(mod_name, mod_table, lvl, msg)
@@ -19,19 +24,23 @@ local log = function(mod_name, mod_table, lvl, msg)
 		msg = lvl
 		lvl = nil
 	end
+	lvl = lvl and lvl:lower()
+	if lvl == "info" then
+		-- "info" is default logging level, same as `nil` for core.log
+		lvl = nil
+	end
 
 	local prefix = "["..mod_name.."]"
 	if lvl ~= nil then
-		lvl = lvl:lower()
-
 		if lvl == "debug" and not debug_mods then
 			return
 		elseif lvl == "warn" then
+			-- core logger only recognizes "warning"
 			lvl = "warning"
 		end
 
 		-- exclude prefixes already added by Luanti engine
-		if lvl ~= "warning" and lvl ~= "error" then
+		if lvl ~= "action" and lvl ~= "warning" and lvl ~= "error" then
 			prefix = lvl:upper()..prefix
 		end
 	end
@@ -64,6 +73,16 @@ register_mod_logger = function(mod_table)
 		log(mod_name, mod_table, lvl, msg)
 	end
 
+	-- wrapper for logging info level messages
+	mod_table.info = function(msg)
+		log(mod_name, mod_table, nil, msg)
+	end
+
+	-- wrapper for logging action level messages
+	mod_table.action = function(msg)
+		log(mod_name, mod_table, "action", msg)
+	end
+
 	-- wrapper for logging warning level messages
 	mod_table.warn = function(msg)
 		log(mod_name, mod_table, "warn", msg)
@@ -90,7 +109,8 @@ register_mod_logger(mod_logger)
 
 -- debug
 if debug_mods then
-	mod_logger.log("default log message")
+	mod_logger.info("info log message")
+	mod_logger.action("action log message")
 	mod_logger.warn("warning log message")
 	mod_logger.error("error log message")
 	mod_logger.debug("debug log message")
