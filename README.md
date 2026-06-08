@@ -91,5 +91,7 @@ my_logger.info("Hello my_mod!")
 
 ## TODO
 
+- allow setting custom logger name
+
 
 [Luanti]: https://www.luanti.org/
