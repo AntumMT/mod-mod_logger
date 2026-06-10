@@ -7,13 +7,13 @@ logging output messages.
 
 ## Usage
 
-Adds a single global function `register_mod_logger`:
+Adds a single global function `add_mod_logger`:
 
 ```
-register_mod_logger()
-register_mod_logger(name)
-register_mod_logger(logger)
-register_mod_logger(name, logger)
+add_mod_logger()
+add_mod_logger(name)
+add_mod_logger(logger)
+add_mod_logger(name, logger)
 - name: (optional) Logger name that will prefix messages. If omitted, mod name will be used.
 - logger: (optional) Table to which logging functions will be added. If omitted, a new table will be created
     & returned.
@@ -50,7 +50,7 @@ Using as hard dependency:
 
 ```lua
 my_mod = {}
-register_mod_logger(my_mod)
+add_mod_logger(my_mod)
 ```
 
 Using as soft dependency:
@@ -65,8 +65,8 @@ my_mod = {
     error = function() end,
     debug = function() end
 }
-if core.global_exists("register_mod_logger") then
-    register_mod_logger(my_mod)
+if core.global_exists("add_mod_logger") then
+    add_mod_logger(my_mod)
 end
 ```
 
@@ -85,7 +85,7 @@ my_mod.debug("Hello my_mod!")
 Creating a local logger:
 
 ```lua
-local my_logger = register_mod_logger()
+local my_logger = add_mod_logger()
 my_logger.info("Hello my_mod!")
 ```
 

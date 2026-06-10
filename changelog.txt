@@ -1,4 +1,9 @@
 
+2026-06-10
+----------
+- changed registration global function to "add_mod_logger" ("register_mod_logger" retained for backward compatibility)
+
+
 2026-06-08
 ----------
 - initial release

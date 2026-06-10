@@ -96,7 +96,7 @@ local log_mod = function(mod_name, lvl, msg)
 end
 
 
---- Registers logging functions to mod.
+--- Adds logging functions to a table.
 --
 --  Functions added to `logger` table:
 --  - `logger.log(lvl, msg)`
@@ -112,7 +112,7 @@ end
 --    returned.
 --  @return
 --    `logger` or new table with logging functions.
-register_mod_logger = function(name, logger)
+add_mod_logger = function(name, logger)
 	if logger == nil then
 		if type(name) == "table" then
 			logger = name
@@ -166,6 +166,8 @@ register_mod_logger = function(name, logger)
 	return logger
 end
 
+-- backward compat
+register_mod_logger = add_mod_logger
 
 -- ensure using valid logging level
 if logging_level == nil then
